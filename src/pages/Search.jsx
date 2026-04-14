@@ -1,0 +1,33 @@
+import SearchBar from "../components/SearchBar";
+import FilterPanel from "../components/FilterPanel";
+import Card from "../components/Card";
+
+function Search() {
+  return (
+    <div className="search-page">
+      <div className="search-header">
+        <h1>Find Your Perfect Stay</h1>
+        <p>Use filters to narrow down your search</p>
+      </div>
+
+      <div className="search-controls">
+        <SearchBar />
+        <FilterPanel />
+      </div>
+
+      <div className="search-results">
+        <h2>Search Results</h2>
+        <div className="cards">
+          <Card id={1} title="Cozy Pines Boarding House" location="Baguio City" price="6500" />
+          <Card id={2} title="City Comfort Residence" location="Quezon City" price="8000" />
+          <Card id={3} title="Sampaguita Boarding Home" location="Cebu City" price="7000" />
+          <Card id={4} title="UrbanNest Boarding House" location="Davao City" price="6800" />
+          <Card id={5} title="Haven Home Residences" location="Manila" price="9000" />
+          <Card id={6} title="Tranquil Stays Baguio" location="Baguio City" price="7500" />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default Search;

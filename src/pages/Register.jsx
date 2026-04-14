@@ -1,4 +1,35 @@
+import { useNavigate, Link } from "react-router-dom";
+import { useState } from "react";
+
 function Register() {
+  const navigate = useNavigate();
+  const [formData, setFormData] = useState({
+    fullName: "",
+    email: "",
+    password: "",
+    confirmPassword: ""
+  });
+
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
+  };
+
+  const handleSignUp = () => {
+    if (!formData.fullName || !formData.email || !formData.password) {
+      alert("Please fill in all fields");
+      return;
+    }
+    if (formData.password !== formData.confirmPassword) {
+      alert("Passwords do not match");
+      return;
+    }
+    alert("Account created successfully!");
+    navigate("/login");
+  };
+
   return (
     <div className="auth-page">
 
@@ -6,23 +37,47 @@ function Register() {
       <div className="auth-container">
         <div className="auth-card">
 
-          <h3>Register</h3>
-          <p className="subtitle">Sign up to create your account.</p>
+          <h3>Create Account</h3>
+          <p className="subtitle">Sign up to start booking amazing properties!</p>
 
           {/* SOCIAL LOGIN */}
           <button className="social google">Sign up with Google</button>
-          <button className="social facebook">Log in with Facebook</button>
-          <button className="social apple">Log in with Apple</button>
+          <button className="social facebook">Sign up with Facebook</button>
+          <button className="social apple">Sign up with Apple</button>
 
           <div className="divider">or</div>
 
           {/* FORM */}
-          <input type="text" placeholder="Full Name" />
-          <input type="email" placeholder="Email Address" />
-          <input type="password" placeholder="Password" />
-          <input type="password" placeholder="Confirm Password" />
+          <input 
+            type="text" 
+            placeholder="Full Name" 
+            name="fullName"
+            value={formData.fullName}
+            onChange={handleChange}
+          />
+          <input 
+            type="email" 
+            placeholder="Email Address" 
+            name="email"
+            value={formData.email}
+            onChange={handleChange}
+          />
+          <input 
+            type="password" 
+            placeholder="Password" 
+            name="password"
+            value={formData.password}
+            onChange={handleChange}
+          />
+          <input 
+            type="password" 
+            placeholder="Confirm Password" 
+            name="confirmPassword"
+            value={formData.confirmPassword}
+            onChange={handleChange}
+          />
 
-          <button className="btn-continue">Sign Up</button>
+          <button className="btn-continue" onClick={handleSignUp}>Sign Up</button>
 
           {/* TERMS */}
           <p className="terms">
@@ -30,7 +85,7 @@ function Register() {
           </p>
 
           <p className="other">
-            Already have an account? <span className="link">Log in</span>
+            Already have an account? <Link to="/login" className="link">Log in</Link>
           </p>
 
         </div>

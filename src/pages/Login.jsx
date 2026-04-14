@@ -1,11 +1,32 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
+import { useState } from "react";
 
 function Login({ setIsLoggedIn }) {
   const navigate = useNavigate();
+  const [email, setEmail] = useState("");
+  const [error, setError] = useState("");
+
+  const VALID_EMAIL = "eragritchiegg@gmail.com";
 
   const handleLogin = () => {
-    setIsLoggedIn(true);
-    navigate("/dashboard");
+    if (!email) {
+      setError("Please enter your email");
+      return;
+    }
+    
+    if (email.toLowerCase() === VALID_EMAIL.toLowerCase()) {
+      setIsLoggedIn(true);
+      setError("");
+      navigate("/menu");
+    } else {
+      setError("Invalid email. Please use: eragritchiegg@gmail.com");
+    }
+  };
+
+  const handleKeyPress = (e) => {
+    if (e.key === "Enter") {
+      handleLogin();
+    }
   };
 
   return (
@@ -15,9 +36,9 @@ function Login({ setIsLoggedIn }) {
       <div className="auth-container">
         <div className="auth-card">
 
-          <h3>Log in or create an account</h3>
+          <h3>Welcome Back</h3>
           <p className="subtitle">
-            Log in or sign up to access amazing features!
+            Log in to access your bookings and manage properties
           </p>
 
           {/* SOCIAL BUTTONS */}
@@ -28,13 +49,26 @@ function Login({ setIsLoggedIn }) {
           <div className="divider">or</div>
 
           {/* INPUT */}
-          <input type="email" placeholder="Email" />
+          <input 
+            type="email" 
+            placeholder="Enter your email" 
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            onKeyPress={handleKeyPress}
+          />
+
+          {error && <p className="error-message">{error}</p>}
 
           <button className="btn-continue" onClick={handleLogin}>
             Continue
           </button>
 
-          <p className="other">Other ways to log in</p>
+          <p className="other">
+            Don't have an account? <Link to="/register" className="link">Sign up</Link>
+          </p>
+
+          {/* DEMO HINT */}
+          <p className="demo-hint">Demo: eragritchiegg@gmail.com</p>
 
         </div>
       </div>

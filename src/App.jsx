@@ -6,6 +6,13 @@ import ChatBox from "./components/ChatBox";
 
 import Home from "./pages/Home";
 import About from "./pages/About";
+import Contact from "./pages/Contact";
+import Menu from "./pages/Menu";
+import Browse from "./pages/Browse";
+import Conversations from "./pages/Conversations";
+import Search from "./pages/Search";
+import Messages from "./pages/Messages";
+import Profile from "./pages/Profile";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
@@ -30,6 +37,13 @@ function App() {
 
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
+        <Route path="/contact" element={<Contact />} />
+        <Route path="/menu" element={<Menu />} />
+        <Route path="/browse" element={<Browse />} />
+        <Route path="/conversations" element={<Conversations />} />
+        <Route path="/search" element={<Search />} />
+        <Route path="/messages" element={<Messages />} />
+        <Route path="/profile" element={<Profile />} />
 
         <Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn} />} />
         <Route path="/register" element={<Register />} />
