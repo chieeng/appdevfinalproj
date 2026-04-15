@@ -113,31 +113,6 @@ function Home() {
         </div>
       </div>
 
-      {/* TESTIMONIALS */}
-      <div className="container testimonials-section">
-        <div className="section-header">
-          <h2>What Our Users Say</h2>
-          <p>Real feedback from satisfied tenants</p>
-        </div>
-
-        <div className="testimonials-grid">
-          {testimonials.map((testimonial, index) => (
-            <div key={index} className="testimonial-card">
-              <div className="stars">
-                {[...Array(testimonial.rating)].map((_, i) => (
-                  <span key={i}>⭐</span>
-                ))}
-              </div>
-              <p className="testimonial-text">"{testimonial.text}"</p>
-              <div className="testimonial-author">
-                <h4>{testimonial.name}</h4>
-                <p>{testimonial.location}</p>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-
       {/* CTA SECTION */}
       <div className="cta-section">
         <div className="container">

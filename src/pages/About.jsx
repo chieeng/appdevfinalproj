@@ -1,7 +1,9 @@
+import cover2 from "../images/cover-2.png";
+
 function About() {
   return (
     <div className="about-container">
-      <div className="about-header">
+      <div className="about-header" style={{ backgroundImage: `url(${cover2})` }}>
         <h1>About VacanSee</h1>
         <p>Your trusted platform for finding and booking comfortable stays.</p>
       </div>

@@ -1,5 +1,3 @@
-import { useState } from "react";
-
 function Conversations() {
   const conversations = [
     { id: 1, name: "Cozy Pines Boarding House", lastMessage: "When can you visit?", time: "2 hours ago", unread: 2 },

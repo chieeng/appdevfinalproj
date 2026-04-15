@@ -1,5 +1,6 @@
 import { useState } from "react";
 import InquiryForm from "../components/InquiryForm";
+import cover3 from "../images/cover-3.png";
 
 function Contact() {
   const [submitted, setSubmitted] = useState(false);
@@ -11,7 +12,7 @@ function Contact() {
 
   return (
     <div className="contact-container">
-      <div className="contact-header">
+      <div className="contact-header" style={{ backgroundImage: `url(${cover3})` }}>
         <h1>Get in Touch</h1>
         <p>We'd love to hear from you. Send us a message and we'll respond as soon as possible.</p>
       </div>
