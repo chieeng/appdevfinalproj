@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Card from "../components/Card";
 import FilterPanel from "../components/FilterPanel";
+import cover2 from "../images/cover-2.png";
 
 function Browse() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -36,7 +37,7 @@ function Browse() {
 
   return (
     <div className="browse-page">
-      <div className="browse-header">
+      <div className="browse-header" style={{ backgroundImage: `url(${cover2})` }}>
         <h1>Browse Available Listings</h1>
         <p>Discover {filteredListings.length} board rooms across the Philippines</p>
       </div>

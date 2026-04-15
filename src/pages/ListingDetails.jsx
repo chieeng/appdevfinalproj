@@ -1,5 +1,8 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useState } from "react";
+import listing1 from "../images/listing-1.jpg";
+import listing2 from "../images/listing-2.jpg";
+import listing3 from "../images/listing-3.png";
 
 function ListingDetails({ addBooking, isLoggedIn }) {
   const { id } = useParams();
@@ -37,6 +40,11 @@ function ListingDetails({ addBooking, isLoggedIn }) {
   if (!data) return <h2 className="container">Listing not found</h2>;
 
   const total = data.price * months;
+  
+  // Cycle through listing images
+  const listingImages = [listing1, listing2, listing3];
+  const imageIndex = (id - 1) % listingImages.length;
+  const selectedImage = listingImages[imageIndex];
 
   const handleBooking = () => {
     // 🔥 CHECK LOGIN
@@ -65,12 +73,16 @@ function ListingDetails({ addBooking, isLoggedIn }) {
   };
 
   return (
-    <div className="container listing-page">
-
-      <h2>{data.title}</h2>
-      <p className="location">{data.location}</p>
-      <p className="price">₱ {data.price} / month</p>
-      <p className="description">{data.description}</p>
+    <div className="listing-page">
+      <div className="listing-hero" style={{ backgroundImage: `url(${selectedImage})` }}>
+        <div className="listing-hero-overlay"></div>
+      </div>
+      
+      <div className="container">
+        <h2>{data.title}</h2>
+        <p className="location">{data.location}</p>
+        <p className="price">₱ {data.price} / month</p>
+        <p className="description">{data.description}</p>
 
       <div className="booking-form">
 
@@ -97,6 +109,7 @@ function ListingDetails({ addBooking, isLoggedIn }) {
           Confirm Booking
         </button>
 
+      </div>
       </div>
 
     </div>

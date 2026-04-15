@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import cover1 from "../images/cover-1.png";
 
 function Menu() {
   const menuItems = [
@@ -8,7 +9,7 @@ function Menu() {
       description: "Explore all available boarding houses across the Philippines",
       icon: "🏠",
       link: "/browse",
-      color: "#667eea"
+      color: "#14b8a6"
     },
     {
       id: 2,
@@ -16,7 +17,7 @@ function Menu() {
       description: "View your message history with property owners",
       icon: "💬",
       link: "/conversations",
-      color: "#764ba2"
+      color: "#3b82f6"
     },
     {
       id: 3,
@@ -24,7 +25,7 @@ function Menu() {
       description: "Learn more about VacanSee and our mission",
       icon: "ℹ️",
       link: "/about",
-      color: "#f093fb"
+      color: "#06b6d4"
     },
     {
       id: 4,
@@ -32,14 +33,13 @@ function Menu() {
       description: "View your bookings and account statistics",
       icon: "📊",
       link: "/dashboard",
-      color: "#4facfe"
+      color: "#0891b2"
     }
   ];
 
   return (
-    <div className="menu-page">
+    <div className="menu-page" style={{ backgroundImage: `url(${cover1})` }}>
       <div className="menu-hero">
-        <h1>VacanSee Dashboard</h1>
         <p>Manage your boarding house search with ease</p>
       </div>
 

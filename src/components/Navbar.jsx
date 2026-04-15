@@ -1,11 +1,15 @@
 import { Link } from "react-router-dom";
+import logo from "../images/logo.png";
 
 function Navbar({ isLoggedIn }) {
   return (
     <div className="navbar">
       <div className="container navbar-inner">
 
-        <div className="logo">VacanSee</div>
+        <div className="logo">
+          <img src={logo} alt="VacanSee Logo" className="logo-img" />
+          <span>VacanSee</span>
+        </div>
 
         <ul className="nav-links">
           <li><Link to="/">Home</Link></li>

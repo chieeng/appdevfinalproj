@@ -1,3 +1,5 @@
+import cover1 from "../images/cover-1.png";
+
 function Conversations() {
   const conversations = [
     { id: 1, name: "Cozy Pines Boarding House", lastMessage: "When can you visit?", time: "2 hours ago", unread: 2 },
@@ -8,7 +10,7 @@ function Conversations() {
 
   return (
     <div className="conversations-page">
-      <div className="conversations-header">
+      <div className="conversations-header" style={{ backgroundImage: `url(${cover1})` }}>
         <h1>Conversation History</h1>
         <p>Your messages with property owners</p>
       </div>

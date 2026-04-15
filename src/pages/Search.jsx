@@ -1,11 +1,12 @@
 import SearchBar from "../components/SearchBar";
 import FilterPanel from "../components/FilterPanel";
 import Card from "../components/Card";
+import cover3 from "../images/cover-3.png";
 
 function Search() {
   return (
     <div className="search-page">
-      <div className="search-header">
+      <div className="search-header" style={{ backgroundImage: `url(${cover3})` }}>
         <h1>Find Your Perfect Stay</h1>
         <p>Use filters to narrow down your search</p>
       </div>
