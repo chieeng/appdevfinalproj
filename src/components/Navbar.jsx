@@ -1,9 +1,16 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import logo from "../images/logo.png";
 import { useTheme } from '../contexts/ThemeContext';
 
-function Navbar({ isLoggedIn }) {
+function Navbar({ isLoggedIn, setIsLoggedIn }) {
   const { theme, toggleTheme } = useTheme();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    setIsLoggedIn(false, null);
+    navigate("/");
+  };
+
   return (
     <div className="navbar">
       <div className="container navbar-inner">
@@ -23,7 +30,7 @@ function Navbar({ isLoggedIn }) {
             {theme === 'light' ? '🌙 Dark' : '☀️ Light'}
           </button>
           {isLoggedIn ? (
-            <button className="logout-btn">Logout</button>
+            <button className="logout-btn" onClick={handleLogout}>Logout</button>
           ) : (
             <>
               <Link to="/login"><button>Login</button></Link>

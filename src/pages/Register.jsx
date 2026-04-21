@@ -26,6 +26,23 @@ function Register() {
       alert("Passwords do not match");
       return;
     }
+
+    // Check if email already exists
+    const existingUsers = JSON.parse(localStorage.getItem("users") || "[]");
+    if (existingUsers.some(user => user.email.toLowerCase() === formData.email.toLowerCase())) {
+      alert("This email is already registered");
+      return;
+    }
+
+    // Store new user
+    const newUser = {
+      fullName: formData.fullName,
+      email: formData.email,
+      password: formData.password
+    };
+    existingUsers.push(newUser);
+    localStorage.setItem("users", JSON.stringify(existingUsers));
+
     alert("Account created successfully!");
     navigate("/login");
   };

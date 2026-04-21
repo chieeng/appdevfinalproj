@@ -4,22 +4,40 @@ import { useState } from "react";
 function Login({ setIsLoggedIn }) {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
-  const VALID_EMAIL = "eragritchiegg@gmail.com";
+  const DEMO_EMAIL = "eragritchiegg@gmail.com";
+  const DEMO_PASSWORD = "password123";
 
   const handleLogin = () => {
     if (!email) {
       setError("Please enter your email");
       return;
     }
+    if (!password) {
+      setError("Please enter your password");
+      return;
+    }
     
-    if (email.toLowerCase() === VALID_EMAIL.toLowerCase()) {
-      setIsLoggedIn(true);
+    // Check demo account
+    if (email.toLowerCase() === DEMO_EMAIL.toLowerCase() && password === DEMO_PASSWORD) {
+      setIsLoggedIn(true, email);
+      setError("");
+      navigate("/menu");
+      return;
+    }
+
+    // Check registered accounts
+    const users = JSON.parse(localStorage.getItem("users") || "[]");
+    const user = users.find(u => u.email.toLowerCase() === email.toLowerCase() && u.password === password);
+    
+    if (user) {
+      setIsLoggedIn(true, user.email);
       setError("");
       navigate("/menu");
     } else {
-      setError("Invalid email. Please use: eragritchiegg@gmail.com");
+      setError("Invalid email or password");
     }
   };
 
@@ -56,6 +74,15 @@ function Login({ setIsLoggedIn }) {
             onChange={(e) => setEmail(e.target.value)}
             onKeyPress={handleKeyPress}
           />
+          <input 
+            type="password" 
+            placeholder="Enter your password" 
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            onKeyPress={handleKeyPress}
+          />
+
+       
 
           {error && <p className="error-message">{error}</p>}
 
@@ -66,9 +93,6 @@ function Login({ setIsLoggedIn }) {
           <p className="other">
             Don't have an account? <Link to="/register" className="link">Sign up</Link>
           </p>
-
-          {/* DEMO HINT */}
-          <p className="demo-hint">Demo: eragritchiegg@gmail.com</p>
 
         </div>
       </div>

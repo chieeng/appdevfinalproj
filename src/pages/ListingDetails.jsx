@@ -1,29 +1,29 @@
 import { useParams, useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
-import axios from "axios";
+import { useState, useEffect, useContext } from "react";
+import { getListingById } from "../data/listings";
+import { ChatContext } from "../contexts/ChatContext";
 
 import listing1 from "../images/listing-1.jpg";
 import listing2 from "../images/listing-2.jpg";
 import listing3 from "../images/listing-3.png";
 
-function ListingDetails({ isLoggedIn }) {
+function ListingDetails({ isLoggedIn, currentUserEmail }) {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { openConversation } = useContext(ChatContext);
 
   const [listing, setListing] = useState(null);
   const [status, setStatus] = useState("");
   const [months, setMonths] = useState(1);
   const [date, setDate] = useState("");
 
-  // 🔥 FETCH FROM DJANGO
+  // 🔥 FETCH FROM LOCAL DATABASE
   useEffect(() => {
-    axios
-        .get(`http://127.0.0.1:8000/api/listings/${id}/`)
-        .then((res) => {
-          setListing(res.data);
-          setStatus(res.data.status);
-        })
-        .catch((err) => console.log(err));
+    const listingData = getListingById(id);
+    if (listingData) {
+      setListing(listingData);
+      setStatus(listingData.status);
+    }
   }, [id]);
 
   if (!listing) return <h2 className="container">Loading...</h2>;
@@ -34,7 +34,7 @@ function ListingDetails({ isLoggedIn }) {
   const selectedImage = listingImages[(id - 1) % listingImages.length];
 
   // 🔥 BOOKING FUNCTION
-  const handleBooking = async () => {
+  const handleBooking = () => {
     if (!isLoggedIn) {
       alert("You must login first!");
       navigate("/login");
@@ -46,30 +46,37 @@ function ListingDetails({ isLoggedIn }) {
       return;
     }
 
-    try {
-      const res = await fetch(`http://127.0.0.1:8000/book/${id}/`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          date: date,
-          months: months,
-        }),
-      });
+    // Save booking to user-specific localStorage
+    const userBookingsKey = `bookings_${currentUserEmail}`;
+    const userBookings = JSON.parse(localStorage.getItem(userBookingsKey) || "[]");
+    const newBooking = {
+      listingId: id,
+      title: listing.title,
+      location: listing.location,
+      price: listing.price,
+      moveInDate: date,
+      months: months,
+      totalPrice: total,
+      bookingDate: new Date().toLocaleDateString()
+    };
+    
+    userBookings.push(newBooking);
+    localStorage.setItem(userBookingsKey, JSON.stringify(userBookings));
+    
+    alert("Booking successful!");
+    navigate("/dashboard");
+  };
 
-      const result = await res.json();
-
-      if (res.ok) {
-        setStatus("Occupied"); // update UI
-        alert("Booking successful!");
-        navigate("/dashboard");
-      } else {
-        alert(result.message || "Booking failed");
-      }
-    } catch (error) {
-      alert("Server error");
+  // 🔥 MESSAGE OWNER FUNCTION
+  const handleMessageOwner = () => {
+    if (!isLoggedIn) {
+      alert("You must login first!");
+      navigate("/login");
+      return;
     }
+
+    // Open the chat bubble with this property
+    openConversation(id);
   };
 
   return (
@@ -106,17 +113,24 @@ function ListingDetails({ isLoggedIn }) {
             </div>
 
             <div className="property-meta">
-              <div><strong>{listing.bedroom}</strong> Bedroom</div>
-              <div><strong>{listing.bathroom}</strong> Bathroom</div>
-              <div><strong>{listing.type}</strong></div>
-              <div><strong>{listing.offer}</strong></div>
+              <div><strong>{listing.bedrooms}</strong> Bedrooms</div>
+              <div><strong>{listing.bathrooms}</strong> Bathrooms</div>
+              <div><strong>Boarding House</strong></div>
+              <div><strong>Available</strong></div>
             </div>
 
             <div className="section">
               <h3>Description</h3>
-              <p style={{ whiteSpace: "pre-line" }}>
-                {listing.description}
-              </p>
+              <p>{listing.description}</p>
+            </div>
+
+            <div className="section">
+              <h3>Amenities</h3>
+              <div className="amenities-list">
+                {listing.amenities && listing.amenities.map((amenity, index) => (
+                  <span key={index} className="amenity-tag">✓ {amenity}</span>
+                ))}
+              </div>
             </div>
 
           </div>
@@ -144,8 +158,12 @@ function ListingDetails({ isLoggedIn }) {
 
               <p className="total">Total: ₱ {total}</p>
 
-              <button onClick={handleBooking}>
+              <button onClick={handleBooking} className="btn-primary">
                 Confirm Booking
+              </button>
+
+              <button onClick={handleMessageOwner} className="btn-secondary">
+                📧 Message Owner
               </button>
             </div>
 

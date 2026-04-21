@@ -18,22 +18,32 @@ import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
 import ListingDetails from "./pages/ListingDetails";
 import { ThemeProvider } from './contexts/ThemeContext';
+import { ChatProvider } from './contexts/ChatContext';
 
 import "./App.css";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [bookings, setBookings] = useState([]);
+  const [currentUserEmail, setCurrentUserEmail] = useState(null);
 
-  const addBooking = (listing) => {
-    setBookings([...bookings, listing]);
+  // Handle user login with email tracking
+  const handleSetIsLoggedIn = (value, email = null) => {
+    setIsLoggedIn(value);
+    if (value && email) {
+      setCurrentUserEmail(email);
+      localStorage.setItem("currentUserEmail", email);
+    } else {
+      setCurrentUserEmail(null);
+      localStorage.removeItem("currentUserEmail");
+    }
   };
 
   return (
+    <ChatProvider>
     <ThemeProvider>
     <Router>
 
-      <Navbar isLoggedIn={isLoggedIn} />
+      <Navbar isLoggedIn={isLoggedIn} setIsLoggedIn={handleSetIsLoggedIn} />
 
       <Routes>
 
@@ -47,14 +57,14 @@ function App() {
         <Route path="/messages" element={<Messages />} />
         <Route path="/profile" element={<Profile />} />
 
-        <Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn} />} />
+        <Route path="/login" element={<Login setIsLoggedIn={handleSetIsLoggedIn} />} />
         <Route path="/register" element={<Register />} />
 
         <Route
           path="/dashboard"
           element={
             isLoggedIn
-              ? <Dashboard bookings={bookings} />
+              ? <Dashboard currentUserEmail={currentUserEmail} />
               : <Navigate to="/login" />
           }
         />
@@ -63,8 +73,8 @@ function App() {
           path="/listing/:id"
           element={
             <ListingDetails
-              addBooking={addBooking}
               isLoggedIn={isLoggedIn}
+              currentUserEmail={currentUserEmail}
             />
           }
         />
@@ -76,6 +86,7 @@ function App() {
 
     </Router>
     </ThemeProvider>
+    </ChatProvider>
   );
 }
 

@@ -1,8 +1,19 @@
 import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
 import Topbar from "../components/Topbar";
-import BoardingCard from "../components/BoardingCard";
 
-function Dashboard({ bookings }) {
+function Dashboard({ currentUserEmail }) {
+  const [localBookings, setLocalBookings] = useState([]);
+
+  useEffect(() => {
+    // Load bookings for the current user from localStorage only
+    if (currentUserEmail) {
+      const userBookingsKey = `bookings_${currentUserEmail}`;
+      const savedBookings = JSON.parse(localStorage.getItem(userBookingsKey) || "[]");
+      setLocalBookings(savedBookings);
+    }
+  }, [currentUserEmail]);
+
   const quickActions = [
     { icon: "🔍", label: "Search Properties", link: "/search" },
     { icon: "💬", label: "Messages", link: "/messages" },
@@ -41,12 +52,12 @@ function Dashboard({ bookings }) {
         <div className="stats">
           <div className="stat-card">
             <h4>📊 Available Properties</h4>
-            <p className="stat-number">24</p>
+            <p className="stat-number">20</p>
           </div>
 
           <div className="stat-card">
             <h4>📋 Your Bookings</h4>
-            <p className="stat-number">{bookings.length}</p>
+            <p className="stat-number">{localBookings.length}</p>
           </div>
 
           <div className="stat-card">
@@ -66,26 +77,31 @@ function Dashboard({ bookings }) {
         <div className="suggestions">
           <div className="section-header-inline">
             <h2>Your Active Bookings</h2>
-            <Link to="/search" className="view-more-link">Browse More →</Link>
+            <Link to="/browse" className="view-more-link">Browse More →</Link>
           </div>
 
-          {bookings.length === 0 ? (
+          {localBookings.length === 0 ? (
             <div className="empty-state">
               <div className="empty-icon">📭</div>
               <h3>No bookings yet</h3>
               <p>Start exploring properties and make your first booking today!</p>
-              <Link to="/search" className="empty-state-btn">Search Properties</Link>
+              <Link to="/browse" className="empty-state-btn">Search Properties</Link>
             </div>
           ) : (
-            <div className="cards">
-              {bookings.map((item, index) => (
-                <BoardingCard
-                  key={index}
-                  id={item.id}
-                  title={item.title}
-                  location={item.location}
-                  price={item.price}
-                />
+            <div className="bookings-list">
+              {localBookings.map((booking, index) => (
+                <div key={index} className="booking-item">
+                  <div className="booking-header">
+                    <h3>{booking.title}</h3>
+                    <span className="booking-price">₱{booking.totalPrice.toLocaleString()}</span>
+                  </div>
+                  <p className="booking-location">📍 {booking.location}</p>
+                  <div className="booking-details">
+                    <span>📅 Move-in: {booking.moveInDate}</span>
+                    <span>⏱️ Duration: {booking.months} month{booking.months > 1 ? 's' : ''}</span>
+                    <span>💰 ₱{booking.price.toLocaleString()}/month</span>
+                  </div>
+                </div>
               ))}
             </div>
           )}
