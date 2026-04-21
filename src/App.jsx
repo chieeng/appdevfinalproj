@@ -17,6 +17,7 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
 import ListingDetails from "./pages/ListingDetails";
+import { ThemeProvider } from './contexts/ThemeContext';
 
 import "./App.css";
 
@@ -29,6 +30,7 @@ function App() {
   };
 
   return (
+    <ThemeProvider>
     <Router>
 
       <Navbar isLoggedIn={isLoggedIn} />
@@ -73,6 +75,7 @@ function App() {
       <ChatBox />
 
     </Router>
+    </ThemeProvider>
   );
 }
 

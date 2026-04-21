@@ -1,7 +1,9 @@
 import { Link } from "react-router-dom";
 import logo from "../images/logo.png";
+import { useTheme } from '../contexts/ThemeContext';
 
 function Navbar({ isLoggedIn }) {
+  const { theme, toggleTheme } = useTheme();
   return (
     <div className="navbar">
       <div className="container navbar-inner">
@@ -17,6 +19,9 @@ function Navbar({ isLoggedIn }) {
         </ul>
 
         <div className="auth-buttons">
+          <button onClick={toggleTheme} className="theme-toggle-btn">
+            {theme === 'light' ? '🌙 Dark' : '☀️ Light'}
+          </button>
           {isLoggedIn ? (
             <button className="logout-btn">Logout</button>
           ) : (

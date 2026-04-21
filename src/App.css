@@ -17,6 +17,91 @@ body {
   line-height: 1.6;
 }
 
+/* THEME VARIABLES */
+:root {
+  --bg-color: #f5f7fb; /* Light mode background */
+  --text-color: #2c3e50; /* Light mode text */
+  --navbar-bg: #ffffff; /* Light navbar */
+  --card-bg: #ffffff; /* Light card background */
+  --button-bg: #ffffff; /* Light button background */
+  --input-bg: #ffffff; /* Light input background */
+  --border-color: #ddd; /* Light border */
+  --shadow: rgba(0, 0, 0, 0.1); /* Light shadow */
+  --heading-color: #2c3e50; /* Light heading */
+  --subtitle-color: #5a6c7d; /* Light subtitle */
+  --section-bg: #f8f9fb; /* Light section background */
+}
+
+body.dark {
+  --bg-color: #121212; /* Dark mode background */
+  --text-color: #ffffff; /* Dark mode text */
+  --navbar-bg: #1a1a1a; /* Dark navbar */
+  --card-bg: #1e1e1e; /* Dark card background */
+  --button-bg: #333333; /* Dark button background */
+  --input-bg: #2a2a2a; /* Dark input background */
+  --border-color: #444; /* Dark border */
+  --shadow: rgba(0, 0, 0, 0.3); /* Dark shadow */
+  --heading-color: #ffffff; /* Dark heading */
+  --subtitle-color: #b0b0b0; /* Dark subtitle */
+  --section-bg: #161616; /* Dark section background */
+}
+
+/* Apply variables */
+body {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  transition: background-color 0.3s, color 0.3s; /* Smooth transition */
+}
+
+.navbar {
+  background-color: var(--navbar-bg);
+  transition: background-color 0.3s;
+}
+
+/* THEME TOGGLE BUTTON */
+.theme-toggle-btn {
+  margin-right: 10px;
+  padding: 8px 12px;
+  background: none;
+  border: 1px solid var(--text-color);
+  color: var(--text-color);
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.theme-toggle-btn:hover {
+  background-color: var(--text-color);
+  color: var(--bg-color);
+}
+
+/* APPLY THEME TO COMMON ELEMENTS */
+.card, .hero, .inquiry-form, .boarding-card, .chat-box, .filter-panel, .search-bar, .topbar {
+  background-color: var(--card-bg);
+  border-color: var(--border-color);
+  box-shadow: 0 2px 4px var(--shadow);
+  transition: background-color 0.3s, border-color 0.3s, box-shadow 0.3s;
+}
+
+button, .btn {
+  background-color: var(--button-bg);
+  border-color: var(--border-color);
+  color: var(--text-color);
+  transition: background-color 0.3s, border-color 0.3s, color 0.3s;
+}
+
+input, textarea, select {
+  background-color: var(--input-bg);
+  border-color: var(--border-color);
+  color: var(--text-color);
+  transition: background-color 0.3s, border-color 0.3s, color 0.3s;
+}
+
+input::placeholder, textarea::placeholder {
+  color: var(--text-color);
+  opacity: 0.7;
+}
+
 /* ================= ANIMATIONS ================= */
 @keyframes fadeInUp {
   from {
@@ -330,34 +415,36 @@ small {
 .search-box {
   display: flex;
   gap: 15px;
-  background: white;
+  background: var(--card-bg);
   padding: 18px 20px;
   border-radius: 14px;
   box-shadow: 0 12px 40px rgba(20, 184, 166, 0.25);
   backdrop-filter: blur(10px);
-  border: 1px solid rgba(255,255,255,0.8);
+  border: 1px solid var(--border-color);
+  transition: background-color 0.3s;
 }
 
 .search-box input {
   padding: 14px 18px;
-  border: 2px solid #e8e8f0;
+  border: 2px solid var(--border-color);
   border-radius: 10px;
   width: 260px;
   font-size: 15px;
   transition: all 0.3s ease;
   font-weight: 400;
-  background: #f8f9fb;
+  background: var(--input-bg);
+  color: var(--text-color);
 }
 
 .search-box input::placeholder {
-  color: #b0b3cc;
+  color: var(--subtitle-color);
   font-weight: 400;
 }
 
 .search-box input:focus {
   outline: none;
   border-color: #14b8a6;
-  background: white;
+  background: var(--card-bg);
   box-shadow: 0 0 0 4px rgba(20, 184, 166, 0.15);
 }
 
@@ -388,7 +475,8 @@ small {
 /* ================= FEATURED ================= */
 .featured {
   padding: 100px 0;
-  background: white;
+  background: var(--bg-color);
+  transition: background-color 0.3s;
 }
 
 .featured .cards-grid {
@@ -407,7 +495,7 @@ small {
 .section-header h2 {
   font-size: 42px;
   font-weight: 700;
-  color: #2c3e50;
+  color: var(--heading-color);
   margin-bottom: 20px;
   letter-spacing: -1px;
   line-height: 1.2;
@@ -415,7 +503,7 @@ small {
 
 .section-header p {
   font-size: 18px;
-  color: #5a6c7d;
+  color: var(--subtitle-color);
   max-width: 600px;
   margin: 0 auto;
   line-height: 1.8;
@@ -551,9 +639,10 @@ small {
 
 /* ================= HOW IT WORKS ================= */
 .how-it-works {
-  background: linear-gradient(to bottom, #f8f9fb 0%, white 100%);
+  background: var(--section-bg);
   padding: 100px 0;
   margin: 80px 0;
+  transition: background-color 0.3s;
 }
 
 .steps-grid {
@@ -564,14 +653,14 @@ small {
 }
 
 .step-card {
-  background: white;
+  background: var(--card-bg);
   padding: 50px 40px;
   border-radius: 16px;
   text-align: center;
-  box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+  box-shadow: 0 8px 30px var(--shadow);
   transition: all 0.3s ease;
   position: relative;
-  border: 2px solid transparent;
+  border: 2px solid var(--border-color);
   overflow: hidden;
   animation: slideInUp 0.6s ease-out both;
 }
@@ -611,7 +700,7 @@ small {
 
 .step-card h3 {
   font-size: 26px;
-  color: #2c3e50;
+  color: var(--heading-color);
   margin-bottom: 18px;
   font-weight: 700;
   letter-spacing: -0.4px;
@@ -619,7 +708,7 @@ small {
 }
 
 .step-card p {
-  color: #5a6c7d;
+  color: var(--subtitle-color);
   line-height: 1.8;
   font-weight: 400;
   font-size: 16px;
@@ -630,8 +719,9 @@ small {
 /* ================= TESTIMONIALS ================= */
 .testimonials-section {
   padding: 100px 0;
-  background: linear-gradient(to bottom, white 0%, #f8f9fb 100%);
+  background: var(--section-bg);
   margin: 80px 0;
+  transition: background-color 0.3s;
 }
 
 .testimonials-section .section-header h2 {
@@ -647,10 +737,10 @@ small {
 }
 
 .testimonial-card {
-  background: white;
+  background: var(--card-bg);
   padding: 42px 38px;
   border-radius: 16px;
-  box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+  box-shadow: 0 8px 30px var(--shadow);
   border-left: 4px solid transparent;
   border-image: linear-gradient(135deg, #14b8a6 0%, #3b82f6 100%) 1;
   transition: all 0.3s ease;
@@ -854,13 +944,13 @@ small {
 }
 
 .card {
-  background: white;
+  background: var(--card-bg);
   border-radius: 20px;
   overflow: hidden;
-  box-shadow: 0 8px 35px rgba(0,0,0,0.08);
+  box-shadow: 0 8px 35px var(--shadow);
   transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
   animation: slideIn 0.6s ease-out both;
-  border: 2px solid transparent;
+  border: 2px solid var(--border-color);
   position: relative;
 }
 
@@ -922,7 +1012,7 @@ small {
 .card h3 {
   font-size: 20px;
   margin-bottom: 12px;
-  color: #2c3e50;
+  color: var(--heading-color);
   font-weight: 700;
   letter-spacing: -0.3px;
   line-height: 1.3;
@@ -930,7 +1020,7 @@ small {
 
 .location {
   font-size: 15px;
-  color: #7f8c8d;
+  color: var(--subtitle-color);
   margin-bottom: 16px;
   display: flex;
   align-items: center;
@@ -998,8 +1088,9 @@ small {
 
 /* ================= DASHBOARD ================= */
 .dashboard-page {
-  background: #f8f9fb;
+  background: var(--bg-color);
   min-height: 100vh;
+  transition: background-color 0.3s;
 }
 
 .dashboard-welcome {
@@ -1054,10 +1145,11 @@ small {
 
 /* QUICK ACTIONS */
 .quick-actions-section {
-  background: white;
+  background: var(--bg-color);
   padding: 35px 0;
-  border-bottom: 1px solid #e8e8f0;
+  border-bottom: 1px solid var(--border-color);
   margin-bottom: 45px;
+  transition: background-color 0.3s;
 }
 
 .quick-actions {
@@ -1073,10 +1165,10 @@ small {
   justify-content: center;
   gap: 12px;
   padding: 24px;
-  background: #f8f9fb;
+  background: var(--section-bg);
   border-radius: 14px;
   text-decoration: none;
-  color: #2c3e50;
+  color: var(--text-color);
   transition: all 0.3s ease;
   border: 2px solid rgba(20, 184, 166, 0.0);
   font-weight: 400;
@@ -1111,10 +1203,11 @@ small {
 .empty-state {
   text-align: center;
   padding: 100px 50px;
-  background: white;
+  background: var(--card-bg);
   border-radius: 18px;
   margin-top: 40px;
   border: 1px solid rgba(20, 184, 166, 0.08);
+  transition: background-color 0.3s;
 }
 
 .empty-icon {
@@ -1130,14 +1223,14 @@ small {
 
 .empty-state h3 {
   font-size: 28px;
-  color: #2c3e50;
+  color: var(--heading-color);
   margin-bottom: 12px;
   font-weight: 800;
   letter-spacing: -0.3px;
 }
 
 .empty-state p {
-  color: #5a6c7d;
+  color: var(--subtitle-color);
   margin-bottom: 35px;
   font-size: 17px;
   font-weight: 500;
@@ -1171,7 +1264,7 @@ small {
 .section-header-inline h2 {
   font-size: 24px;
   font-weight: 700;
-  color: #2c3e50;
+  color: var(--heading-color);
 }
 
 .view-more-link {
@@ -1188,10 +1281,11 @@ small {
 /* SIDEBAR */
 .sidebar {
   width: 230px;
-  background: white;
+  background: var(--card-bg);
   padding: 20px;
-  border-right: 1px solid #ddd;
+  border-right: 1px solid var(--border-color);
   position: relative;
+  transition: background-color 0.3s;
 }
 
 .sidebar h2 {
@@ -1284,26 +1378,27 @@ small {
 
 /* CARD */
 .auth-card {
-  background: white;
+  background: var(--card-bg);
   padding: 40px;
   width: 400px;
   border-radius: 18px;
-  box-shadow: 0 12px 50px rgba(0,0,0,0.12);
+  box-shadow: 0 12px 50px var(--shadow);
   text-align: center;
   border: 1px solid rgba(20, 184, 166, 0.08);
   backdrop-filter: blur(10px);
+  transition: background-color 0.3s;
 }
 
 .auth-card h3 {
   margin-bottom: 8px;
   font-size: 26px;
   font-weight: 700;
-  color: #2c3e50;
+  color: var(--heading-color);
 }
 
 .subtitle {
   font-size: 14px;
-  color: #7f8c8d;
+  color: var(--subtitle-color);
   margin-bottom: 30px;
   font-weight: 500;
 }
@@ -1335,14 +1430,14 @@ small {
 }
 
 .facebook {
-  background: #f0f2f5;
-  color: #2c3e50;
-  border: 2px solid #e0e0e0;
+  background: var(--section-bg);
+  color: var(--text-color);
+  border: 2px solid var(--border-color);
 }
 
 .facebook:hover {
-  background: #e4e6eb;
-  border-color: #d0d2d7;
+  background: var(--card-bg);
+  border-color: var(--border-color);
 }
 
 .apple {
@@ -1372,22 +1467,23 @@ small {
   padding: 14px 16px;
   margin-bottom: 16px;
   border-radius: 10px;
-  border: 2px solid #e8e8f0;
+  border: 2px solid var(--border-color);
   font-size: 15px;
   transition: all 0.3s ease;
   font-weight: 500;
-  background: #f8f9fb;
+  background: var(--input-bg);
+  color: var(--text-color);
 }
 
 .auth-card input::placeholder {
-  color: #b0b3cc;
+  color: var(--subtitle-color);
   font-weight: 500;
 }
 
 .auth-card input:focus {
   outline: none;
   border-color: #14b8a6;
-  background: white;
+  background: var(--card-bg);
   box-shadow: 0 0 0 4px rgba(20, 184, 166, 0.15);
 }
 
@@ -1460,14 +1556,15 @@ small {
   display: flex;
   justify-content: space-around;
   padding: 50px 30px;
-  background: linear-gradient(to bottom, #f8f9fb 0%, white 100%);
+  background: var(--bg-color);
   font-size: 14px;
-  border-top: 1px solid rgba(20, 184, 166, 0.08);
+  border-top: 1px solid var(--border-color);
+  transition: background-color 0.3s;
 }
 
 .auth-footer h4 {
   margin-bottom: 12px;
-  color: #2c3e50;
+  color: var(--heading-color);
   font-weight: 800;
   font-size: 15px;
   letter-spacing: -0.2px;
@@ -1506,12 +1603,12 @@ small {
 }
 
 .stat-card {
-  background: white;
+  background: var(--card-bg);
   padding: 35px 30px;
   border-radius: 16px;
-  box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+  box-shadow: 0 8px 30px var(--shadow);
   transition: all 0.3s ease;
-  border: 2px solid transparent;
+  border: 2px solid var(--border-color);
   border-left: 5px solid;
   border-image: linear-gradient(135deg, #14b8a6 0%, #3b82f6 100%) 1;
   position: relative;
@@ -1568,17 +1665,18 @@ small {
 
 /* ================= SUGGESTIONS ================= */
 .suggestions {
-  background: white;
+  background: var(--card-bg);
   padding: 30px;
   border-radius: 12px;
-  box-shadow: 0 2px 15px rgba(0,0,0,0.06);
+  box-shadow: 0 2px 15px var(--shadow);
   margin-bottom: 40px;
+  transition: background-color 0.3s;
 }
 
 .suggestions h3 {
   margin-bottom: 25px;
   font-size: 22px;
-  color: #2c3e50;
+  color: var(--heading-color);
   font-weight: 600;
 }
 
@@ -1611,7 +1709,7 @@ small {
   margin-bottom: 16px;
   font-size: 36px;
   font-weight: 800;
-  color: #2c3e50;
+  color: var(--heading-color);
   letter-spacing: -0.5px;
 }
 
@@ -1621,26 +1719,27 @@ small {
   margin-top: 8px;
   margin-bottom: 10px;
   font-size: 15px;
-  color: #333;
+  color: var(--text-color);
 }
 
 /* BOOKING FORM */
 .booking-form {
   margin-top: 35px;
-  background: white;
+  background: var(--card-bg);
   padding: 40px;
   border-radius: 14px;
-  box-shadow: 0 10px 35px rgba(0,0,0,0.1);
+  box-shadow: 0 10px 35px var(--shadow);
   max-width: 450px;
-  border: 2px solid transparent;
+  border: 2px solid var(--border-color);
   animation: slideInUp 0.6s ease-out;
+  transition: background-color 0.3s;
 }
 
 .booking-form h3 {
   margin-bottom: 30px;
   font-size: 22px;
   font-weight: 700;
-  color: #2c3e50;
+  color: var(--heading-color);
   letter-spacing: -0.3px;
 }
 
@@ -1649,7 +1748,7 @@ small {
   margin-top: 16px;
   font-size: 14px;
   font-weight: 700;
-  color: #2c3e50;
+  color: var(--heading-color);
   margin-bottom: 8px;
   letter-spacing: 0.2px;
 }
@@ -1659,8 +1758,9 @@ small {
   padding: 14px 16px;
   margin-top: 6px;
   border-radius: 10px;
-  border: 2px solid #e8e8f0;
-  background: #f8f9fb;
+  border: 2px solid var(--border-color);
+  background: var(--input-bg);
+  color: var(--text-color);
   transition: all 0.3s ease;
   font-weight: 500;
   font-size: 15px;
@@ -1669,7 +1769,7 @@ small {
 .booking-form input:focus {
   outline: none;
   border-color: #14b8a6;
-  background: white;
+  background: var(--card-bg);
   box-shadow: 0 0 0 4px rgba(20, 184, 166, 0.15);
 }
 
@@ -1754,13 +1854,14 @@ small {
   bottom: 80px;
   right: 20px;
   width: 300px;
-  background: white;
+  background: var(--card-bg);
   border-radius: 12px;
-  box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+  box-shadow: 0 8px 25px var(--shadow);
   display: flex;
   flex-direction: column;
   overflow: hidden;
   z-index: 1000;
+  transition: background-color 0.3s;
 }
 
 /* HEADER */
@@ -1779,13 +1880,16 @@ small {
   height: 200px;
   overflow-y: auto;
   font-size: 13px;
+  background: var(--card-bg);
+  color: var(--text-color);
 }
 
 .chat-bubble {
-  background: #eef2f8;
+  background: var(--section-bg);
   padding: 8px;
   border-radius: 8px;
   margin-bottom: 5px;
+  color: var(--text-color);
 }
 
 .empty {
@@ -1796,7 +1900,7 @@ small {
 /* INPUT */
 .chat-input {
   display: flex;
-  border-top: 1px solid #ddd;
+  border-top: 1px solid var(--border-color);
 }
 
 .chat-input input {
@@ -1804,6 +1908,9 @@ small {
   border: none;
   padding: 8px;
   outline: none;
+  background: var(--input-bg);
+  color: var(--text-color);
+  transition: background-color 0.3s, color 0.3s;
 }
 
 .chat-input button {
@@ -1812,20 +1919,26 @@ small {
   border: none;
   padding: 8px 12px;
   cursor: pointer;
+  transition: background-color 0.3s;
 }
 .about {
   padding: 40px;
+  background: var(--bg-color);
+  color: var(--text-color);
+  transition: background-color 0.3s, color 0.3s;
 }
 
 .about h1 {
   font-size: 32px;
   margin-bottom: 15px;
   font-weight: 700;
+  color: var(--heading-color);
 }
 
 .about p {
   margin-bottom: 10px;
   line-height: 1.6;
+  color: var(--text-color);
 }
 .about-container {
   max-width: 900px;
@@ -1833,6 +1946,9 @@ small {
   padding: 40px 20px;
   font-family: 'Poppins', sans-serif;
   animation: fadeInUp 1s ease-out;
+  background: var(--bg-color);
+  color: var(--text-color);
+  transition: background-color 0.3s, color 0.3s;
 }
 
 .about-header {
@@ -1878,11 +1994,12 @@ small {
 
 .about-section {
   margin-bottom: 40px;
-  background: white;
+  background: var(--card-bg);
   padding: 30px;
   border-radius: 16px;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+  box-shadow: 0 4px 20px var(--shadow);
   animation: slideIn 0.6s ease-out both;
+  transition: background-color 0.3s;
 }
 
 .about-section:nth-child(2) {
@@ -1990,7 +2107,7 @@ small {
 }
 
 .contact-info h2 {
-  color: #2c3e50;
+  color: var(--heading-color);
   margin-bottom: 20px;
   font-size: 28px;
   font-weight: 700;
@@ -2001,28 +2118,29 @@ small {
 }
 
 .info-item h3 {
-  color: #2c3e50;
+  color: var(--heading-color);
   margin-bottom: 5px;
   font-size: 18px;
   font-weight: 600;
 }
 
 .info-item p {
-  color: #555;
+  color: var(--text-color);
   line-height: 1.5;
 }
 
 .contact-form {
-  background: white;
+  background: var(--card-bg);
   padding: 30px;
   border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  box-shadow: 0 4px 12px var(--shadow);
+  transition: background-color 0.3s;
 }
 
 /* ================= INQUIRY FORM ================= */
 .inquiry-form h3 {
   margin-bottom: 28px;
-  color: #2c3e50;
+  color: var(--heading-color);
   font-size: 22px;
   font-weight: 700;
   letter-spacing: -0.3px;
@@ -2032,23 +2150,24 @@ small {
   width: 100%;
   padding: 16px 18px;
   margin-bottom: 18px;
-  border: 2px solid #e8e8f0;
+  border: 2px solid var(--border-color);
   border-radius: 12px;
   font-size: 15px;
   transition: all 0.3s ease;
-  background: #f8f9fb;
+  background: var(--input-bg);
+  color: var(--text-color);
   font-weight: 500;
 }
 
 .inquiry-form input::placeholder {
-  color: #9a9aa9;
+  color: var(--subtitle-color);
   font-weight: 500;
 }
 
 .inquiry-form input:focus {
   outline: none;
   border-color: #14b8a6;
-  background: white;
+  background: var(--card-bg);
   box-shadow: 0 0 0 4px rgba(20, 184, 166, 0.15);
 }
 
@@ -2056,26 +2175,27 @@ small {
   width: 100%;
   height: 160px;
   padding: 16px 18px;
-  border: 2px solid #e8e8f0;
+  border: 2px solid var(--border-color);
   border-radius: 12px;
   resize: vertical;
   font-family: inherit;
   margin-bottom: 20px;
   font-size: 15px;
   transition: all 0.3s ease;
-  background: #f8f9fb;
+  background: var(--input-bg);
+  color: var(--text-color);
   font-weight: 500;
 }
 
 .inquiry-form textarea::placeholder {
-  color: #9a9aa9;
+  color: var(--subtitle-color);
   font-weight: 500;
 }
 
 .inquiry-form textarea:focus {
   outline: none;
   border-color: #14b8a6;
-  background: white;
+  background: var(--card-bg);
   box-shadow: 0 0 0 4px rgba(20, 184, 166, 0.15);
 }
 
@@ -2137,7 +2257,8 @@ small {
 /* ================= MENU PAGE NEW ================= */
 .menu-page-new {
   min-height: 100vh;
-  background: #f8f9fa;
+  background: var(--bg-color);
+  transition: background-color 0.3s;
 }
 
 .menu-header-new {
@@ -2161,11 +2282,12 @@ small {
 
 /* TABS */
 .menu-tabs-container {
-  background: white;
-  border-bottom: 1px solid #e0e0e0;
+  background: var(--card-bg);
+  border-bottom: 1px solid var(--border-color);
   position: sticky;
   top: 0;
   z-index: 50;
+  transition: background-color 0.3s;
 }
 
 .menu-tabs {
@@ -2181,7 +2303,7 @@ small {
   cursor: pointer;
   font-size: 16px;
   font-weight: 600;
-  color: #7f8c8d;
+  color: var(--subtitle-color);
   border-bottom: 3px solid transparent;
   transition: all 0.3s ease;
   white-space: nowrap;
@@ -2213,13 +2335,13 @@ small {
 
 .browse-header h2 {
   font-size: 28px;
-  color: #2c3e50;
+  color: var(--heading-color);
   margin-bottom: 10px;
   font-weight: 700;
 }
 
 .browse-header p {
-  color: #7f8c8d;
+  color: var(--subtitle-color);
   font-size: 16px;
 }
 
@@ -2235,18 +2357,19 @@ small {
 .search-input {
   width: 100%;
   padding: 12px 16px;
-  border: 2px solid #e8e8f0;
+  border: 2px solid var(--border-color);
   border-radius: 10px;
   font-size: 14px;
   transition: all 0.3s ease;
-  background: #f8f9fb;
+  background: var(--input-bg);
+  color: var(--text-color);
   font-weight: 500;
 }
 
 .search-input:focus {
   outline: none;
   border-color: #14b8a6;
-  background: white;
+  background: var(--card-bg);
   box-shadow: 0 0 0 3px rgba(20, 184, 166, 0.1);
 }
 
@@ -2254,12 +2377,13 @@ small {
 .no-results {
   text-align: center;
   padding: 60px 20px;
-  background: white;
+  background: var(--card-bg);
   border-radius: 12px;
+  transition: background-color 0.3s;
 }
 
 .no-results p {
-  color: #7f8c8d;
+  color: var(--subtitle-color);
   font-size: 18px;
 }
 
@@ -2270,7 +2394,7 @@ small {
 }
 
 .conversation-item {
-  background: white;
+  background: var(--card-bg);
   padding: 20px;
   border-radius: 10px;
   display: flex;
@@ -2293,7 +2417,7 @@ small {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #f0f2f5;
+  background: var(--section-bg);
   border-radius: 50%;
 }
 
@@ -2302,14 +2426,14 @@ small {
 }
 
 .conv-info h3 {
-  color: #2c3e50;
+  color: var(--heading-color);
   font-size: 16px;
   margin-bottom: 5px;
   font-weight: 600;
 }
 
 .conv-info p {
-  color: #7f8c8d;
+  color: var(--subtitle-color);
   font-size: 14px;
 }
 
@@ -2321,7 +2445,7 @@ small {
 }
 
 .conv-time {
-  color: #7f8c8d;
+  color: var(--subtitle-color);
   font-size: 12px;
 }
 
@@ -2341,7 +2465,7 @@ small {
 /* ABOUT CONTENT */
 .about-content h2 {
   font-size: 28px;
-  color: #2c3e50;
+  color: var(--heading-color);
   margin-bottom: 40px;
   font-weight: 700;
 }
@@ -2481,7 +2605,8 @@ small {
 .search-page {
   padding: 0;
   min-height: calc(100vh - 80px);
-  background: #f8f9fb;
+  background: var(--bg-color);
+  transition: background-color 0.3s;
 }
 
 .search-header {
@@ -2553,7 +2678,7 @@ small {
 .search-results h2 {
   margin-bottom: 32px;
   font-size: 28px;
-  color: #2c3e50;
+  color: var(--heading-color);
   font-weight: 800;
   letter-spacing: -0.3px;
   max-width: 1200px;
@@ -2576,11 +2701,11 @@ small {
 
 /* ================= FILTER PANEL ================= */
 .filter-panel {
-  background: white;
+  background: var(--card-bg);
   padding: 24px;
   border-radius: 14px;
-  box-shadow: 0 6px 20px rgba(0,0,0,0.08);
-  border: 2px solid transparent;
+  box-shadow: 0 6px 20px var(--shadow);
+  border: 2px solid var(--border-color);
   transition: all 0.3s ease;
   position: sticky;
   top: 100px;
@@ -3207,7 +3332,8 @@ small {
 .browse-page {
   padding: 0;
   min-height: calc(100vh - 80px);
-  background: #f8f9fb;
+  background: var(--bg-color);
+  transition: background-color 0.3s;
 }
 
 .browse-header {
