@@ -17,21 +17,60 @@ function ListingDetails({ addBooking, isLoggedIn }) {
       title: "Cozy Pines Boarding House",
       location: "Baguio City",
       price: 6500,
-      description: "A peaceful boarding house with fresh mountain air."
+      bedroom: 1,
+      bathroom: 1,
+      type: "Room",
+      offer: "For Rent",
+      owner: "VacanSee Host",
+      posted: "Recently listed",
+      description:
+          "Your Perfect Home Away from Home in Cebu!\n\n" +
+          "Near Gillesania Engineering Review & Training Center (GERTC) room for rent.\n\n" +
+          "Location: Very near Gillesania Engineering Review & Training Center (GERTC), MHAM, CTU, and Fuente Osmeña Circle\n\n" +
+          "Room Features:\n" +
+          "- Own CR (private bathroom)\n" +
+          "- Air-conditioned\n" +
+          "- Free WiFi\n\n" +
+          "Ideal For: Students, reviewees, or young professionals",
+      features: [
+        "Internet",
+        "Balcony",
+        "Built-in wardrobe",
+        "Wifi",
+        "Air conditioning",
+        "Alarm",
+        "Fully furnished"
+      ]
     },
     2: {
       id: 2,
       title: "City Comfort Residence",
       location: "Quezon City",
       price: 8000,
-      description: "Modern rooms near malls and transport."
+      bedroom: 1,
+      bathroom: 1,
+      type: "Room",
+      offer: "For Rent",
+      owner: "VacanSee Host",
+      posted: "Recently listed",
+      description:
+          "Modern and accessible living space located near malls, transport, and business areas.",
+      features: ["Aircon", "WiFi", "Security", "Near Transport"]
     },
     3: {
       id: 3,
       title: "Sampaguita Boarding Home",
       location: "Cebu City",
       price: 7000,
-      description: "Affordable stay in the heart of Cebu."
+      bedroom: 1,
+      bathroom: 1,
+      type: "Boarding House",
+      offer: "For Rent",
+      owner: "VacanSee Host",
+      posted: "Recently listed",
+      description:
+          "Affordable and convenient stay in a central location. Ideal for students and workers.",
+      features: ["WiFi", "Shared Kitchen", "Accessible Location"]
     }
   };
 
@@ -40,14 +79,11 @@ function ListingDetails({ addBooking, isLoggedIn }) {
   if (!data) return <h2 className="container">Listing not found</h2>;
 
   const total = data.price * months;
-  
-  // Cycle through listing images
+
   const listingImages = [listing1, listing2, listing3];
-  const imageIndex = (id - 1) % listingImages.length;
-  const selectedImage = listingImages[imageIndex];
+  const selectedImage = listingImages[(id - 1) % listingImages.length];
 
   const handleBooking = () => {
-    // 🔥 CHECK LOGIN
     if (!isLoggedIn) {
       alert("You must login first!");
       navigate("/login");
@@ -67,52 +103,119 @@ function ListingDetails({ addBooking, isLoggedIn }) {
     };
 
     addBooking(bookingData);
-
     alert("Booking successful!");
     navigate("/dashboard");
   };
 
   return (
-    <div className="listing-page">
-      <div className="listing-hero" style={{ backgroundImage: `url(${selectedImage})` }}>
-        <div className="listing-hero-overlay"></div>
+      <div className="listing-page">
+
+        {/* HERO */}
+        <div
+            className="listing-hero"
+            style={{ backgroundImage: `url(${selectedImage})` }}
+        >
+          <div className="listing-hero-overlay"></div>
+        </div>
+
+        <div className="container listing-layout">
+
+          {/* LEFT SIDE */}
+          <div className="listing-left">
+
+            {/* TITLE */}
+            <div className="listing-header">
+              <div>
+                <h1 className="title">{data.title}</h1>
+                <p className="location">{data.location}</p>
+              </div>
+
+              <div className="price-box">
+                <h2>₱ {data.price}</h2>
+                <span>/ month</span>
+              </div>
+            </div>
+
+            {/* PROPERTY INFO */}
+            <div className="property-meta">
+              <div className="meta-item">
+                <strong>{data.bedroom}</strong>
+                <span>Bedroom</span>
+              </div>
+
+              <div className="meta-item">
+                <strong>{data.bathroom}</strong>
+                <span>Bathroom</span>
+              </div>
+
+              <div className="meta-item">
+                <strong>{data.type}</strong>
+                <span>House Type</span>
+              </div>
+
+              <div className="meta-item">
+                <strong>{data.offer}</strong>
+                <span>Offer Type</span>
+              </div>
+            </div>
+
+            <p className="posted">
+              {data.posted} • Listed by {data.owner}
+            </p>
+
+            {/* DESCRIPTION */}
+            <div className="section">
+              <h3>Description</h3>
+              <p className="description">{data.description}</p>
+            </div>
+
+            {/* FEATURES */}
+            <div className="section">
+              <h3>Details</h3>
+
+              <div className="features-grid">
+                {data.features.map((item, index) => (
+                    <div key={index} className="feature-item">
+                      ✔ {item}
+                    </div>
+                ))}
+              </div>
+            </div>
+
+          </div>
+
+          {/* RIGHT SIDE (BOOKING FIXED) */}
+          <div className="listing-right">
+
+            <div className="booking-form">
+              <h3>Booking Details</h3>
+
+              <label>Move-in Date</label>
+              <input
+                  type="date"
+                  value={date}
+                  onChange={(e) => setDate(e.target.value)}
+              />
+
+              <label>Number of Months</label>
+              <input
+                  type="number"
+                  min="1"
+                  value={months}
+                  onChange={(e) => setMonths(Number(e.target.value))}
+              />
+
+              <p className="total">Total: ₱ {total}</p>
+
+              <button className="btn-continue" onClick={handleBooking}>
+                Confirm Booking
+              </button>
+            </div>
+
+          </div>
+
+        </div>
       </div>
-      
-      <div className="container">
-        <h2>{data.title}</h2>
-        <p className="location">{data.location}</p>
-        <p className="price">₱ {data.price} / month</p>
-        <p className="description">{data.description}</p>
-
-      <div className="booking-form">
-
-        <h3>Booking Details</h3>
-
-        <label>Move-in Date</label>
-        <input
-          type="date"
-          value={date}
-          onChange={(e) => setDate(e.target.value)}
-        />
-
-        <label>Number of Months</label>
-        <input
-          type="number"
-          min="1"
-          value={months}
-          onChange={(e) => setMonths(Number(e.target.value))}
-        />
-
-        <p className="total">Total: ₱ {total}</p>
-
-        <button className="btn-continue" onClick={handleBooking}>
-          Confirm Booking
-        </button>
-
-      </div>
-      </div>
-
-    </div>
   );
 }
 
