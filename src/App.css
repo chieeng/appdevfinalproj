@@ -2560,6 +2560,12 @@ small {
   margin-right: auto;
   padding: 0 20px;
 }
+.sort-price{
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0 20px;
+  max-width: 1200px;
+}
 
 .search-results .cards {
   max-width: 1200px;
@@ -3546,11 +3552,11 @@ small {
     height: 280px;
     margin-bottom: 40px;
   }
-  
+
   .search-results h2 {
     margin-bottom: 25px;
   }
-  
+
   .search-results .cards {
     padding: 0 20px;
   }
