@@ -1,92 +1,40 @@
 import { useParams, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import axios from "axios";
+
 import listing1 from "../images/listing-1.jpg";
 import listing2 from "../images/listing-2.jpg";
 import listing3 from "../images/listing-3.png";
 
-function ListingDetails({ addBooking, isLoggedIn }) {
+function ListingDetails({ isLoggedIn }) {
   const { id } = useParams();
   const navigate = useNavigate();
 
+  const [listing, setListing] = useState(null);
+  const [status, setStatus] = useState("");
   const [months, setMonths] = useState(1);
   const [date, setDate] = useState("");
 
-  const listings = {
-    1: {
-      id: 1,
-      title: "Cozy Pines Boarding House",
-      location: "Baguio City",
-      price: 6500,
-      bedroom: 1,
-      bathroom: 1,
-      type: "Room",
-      offer: "For Rent",
-      status: "Available",
-      owner: "VacanSee Host",
-      posted: "Recently listed",
-      description:
-          "Your Perfect Home Away from Home in Cebu!\n\n" +
-          "Near Gillesania Engineering Review & Training Center (GERTC) room for rent.\n\n" +
-          "Location: Very near Gillesania Engineering Review & Training Center (GERTC), MHAM, CTU, and Fuente Osmeña Circle\n\n" +
-          "Room Features:\n" +
-          "- Own CR (private bathroom)\n" +
-          "- Air-conditioned\n" +
-          "- Free WiFi\n\n" +
-          "Ideal For: Students, reviewees, or young professionals",
-      features: [
-        "Internet",
-        "Balcony",
-        "Built-in wardrobe",
-        "Wifi",
-        "Air conditioning",
-        "Alarm",
-        "Fully furnished"
-      ]
-    },
-    2: {
-      id: 2,
-      title: "City Comfort Residence",
-      location: "Quezon City",
-      price: 8000,
-      bedroom: 1,
-      bathroom: 1,
-      type: "Room",
-      offer: "For Rent",
-      status: "Available",
-      owner: "VacanSee Host",
-      posted: "Recently listed",
-      description:
-          "Modern and accessible living space located near malls, transport, and business areas.",
-      features: ["Aircon", "WiFi", "Security", "Near Transport"]
-    },
-    3: {
-      id: 3,
-      title: "Sampaguita Boarding Home",
-      location: "Cebu City",
-      price: 7000,
-      bedroom: 1,
-      bathroom: 1,
-      type: "Boarding House",
-      offer: "For Rent",
-      status: "Available",
-      owner: "VacanSee Host",
-      posted: "Recently listed",
-      description:
-          "Affordable and convenient stay in a central location. Ideal for students and workers.",
-      features: ["WiFi", "Shared Kitchen", "Accessible Location"]
-    }
-  };
+  // 🔥 FETCH FROM DJANGO
+  useEffect(() => {
+    axios
+        .get(`http://127.0.0.1:8000/api/listings/${id}/`)
+        .then((res) => {
+          setListing(res.data);
+          setStatus(res.data.status);
+        })
+        .catch((err) => console.log(err));
+  }, [id]);
 
-  const data = listings[id];
+  if (!listing) return <h2 className="container">Loading...</h2>;
 
-  if (!data) return <h2 className="container">Listing not found</h2>;
-
-  const total = data.price * months;
+  const total = (listing.price || 0) * months;
 
   const listingImages = [listing1, listing2, listing3];
   const selectedImage = listingImages[(id - 1) % listingImages.length];
 
-  const handleBooking = () => {
+  // 🔥 BOOKING FUNCTION
+  const handleBooking = async () => {
     if (!isLoggedIn) {
       alert("You must login first!");
       navigate("/login");
@@ -98,20 +46,30 @@ function ListingDetails({ addBooking, isLoggedIn }) {
       return;
     }
 
-    // 🔥 mark as occupied (simple version)
-    data.status = "Occupied";
+    try {
+      const res = await fetch(`http://127.0.0.1:8000/book/${id}/`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          date: date,
+          months: months,
+        }),
+      });
 
-    const bookingData = {
-      ...data,
-      months,
-      date,
-      total
-    };
+      const result = await res.json();
 
-    addBooking(bookingData);
-
-    alert("Booking successful!");
-    navigate("/dashboard");
+      if (res.ok) {
+        setStatus("Occupied"); // update UI
+        alert("Booking successful!");
+        navigate("/dashboard");
+      } else {
+        alert(result.message || "Booking failed");
+      }
+    } catch (error) {
+      alert("Server error");
+    }
   };
 
   return (
@@ -127,74 +85,43 @@ function ListingDetails({ addBooking, isLoggedIn }) {
 
         <div className="container listing-layout">
 
-          {/* LEFT SIDE */}
+          {/* LEFT */}
           <div className="listing-left">
 
-            {/* TITLE */}
             <div className="listing-header">
               <div>
-                <h1 className="title">{data.title}</h1>
-                <div className={`status-badge ${data.status.toLowerCase()}`}>
-                  {data.status}
+                <h1 className="title">{listing.title}</h1>
+
+                <div className={`status-badge ${status.toLowerCase()}`}>
+                  {status}
                 </div>
-                <p className="location">{data.location}</p>
+
+                <p className="location">{listing.location}</p>
               </div>
 
               <div className="price-box">
-                <h2>₱ {data.price}</h2>
+                <h2>₱ {listing.price}</h2>
                 <span>/ month</span>
               </div>
             </div>
 
-            {/* PROPERTY INFO */}
             <div className="property-meta">
-              <div className="meta-item">
-                <strong>{data.bedroom}</strong>
-                <span>Bedroom</span>
-              </div>
-
-              <div className="meta-item">
-                <strong>{data.bathroom}</strong>
-                <span>Bathroom</span>
-              </div>
-
-              <div className="meta-item">
-                <strong>{data.type}</strong>
-                <span>House Type</span>
-              </div>
-
-              <div className="meta-item">
-                <strong>{data.offer}</strong>
-                <span>Offer Type</span>
-              </div>
+              <div><strong>{listing.bedroom}</strong> Bedroom</div>
+              <div><strong>{listing.bathroom}</strong> Bathroom</div>
+              <div><strong>{listing.type}</strong></div>
+              <div><strong>{listing.offer}</strong></div>
             </div>
 
-            <p className="posted">
-              {data.posted} • Listed by {data.owner}
-            </p>
-
-            {/* DESCRIPTION */}
             <div className="section">
               <h3>Description</h3>
-              <p className="description">{data.description}</p>
-            </div>
-
-            {/* FEATURES */}
-            <div className="section">
-              <h3>Details</h3>
-
-              <div className="features-grid">
-                {data.features.map((item, index) => (
-                    <div key={index} className="feature-item">
-                      ✔ {item}
-                    </div>
-                ))}
-              </div>
+              <p style={{ whiteSpace: "pre-line" }}>
+                {listing.description}
+              </p>
             </div>
 
           </div>
 
-          {/* RIGHT SIDE (BOOKING FIXED) */}
+          {/* RIGHT */}
           <div className="listing-right">
 
             <div className="booking-form">
@@ -207,7 +134,7 @@ function ListingDetails({ addBooking, isLoggedIn }) {
                   onChange={(e) => setDate(e.target.value)}
               />
 
-              <label>Number of Months</label>
+              <label>Months</label>
               <input
                   type="number"
                   min="1"
@@ -217,7 +144,7 @@ function ListingDetails({ addBooking, isLoggedIn }) {
 
               <p className="total">Total: ₱ {total}</p>
 
-              <button className="btn-continue" onClick={handleBooking}>
+              <button onClick={handleBooking}>
                 Confirm Booking
               </button>
             </div>
