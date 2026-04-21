@@ -21,6 +21,7 @@ function ListingDetails({ addBooking, isLoggedIn }) {
       bathroom: 1,
       type: "Room",
       offer: "For Rent",
+      status: "Available",
       owner: "VacanSee Host",
       posted: "Recently listed",
       description:
@@ -51,6 +52,7 @@ function ListingDetails({ addBooking, isLoggedIn }) {
       bathroom: 1,
       type: "Room",
       offer: "For Rent",
+      status: "Available",
       owner: "VacanSee Host",
       posted: "Recently listed",
       description:
@@ -66,6 +68,7 @@ function ListingDetails({ addBooking, isLoggedIn }) {
       bathroom: 1,
       type: "Boarding House",
       offer: "For Rent",
+      status: "Available",
       owner: "VacanSee Host",
       posted: "Recently listed",
       description:
@@ -95,6 +98,9 @@ function ListingDetails({ addBooking, isLoggedIn }) {
       return;
     }
 
+    // 🔥 mark as occupied (simple version)
+    data.status = "Occupied";
+
     const bookingData = {
       ...data,
       months,
@@ -103,6 +109,7 @@ function ListingDetails({ addBooking, isLoggedIn }) {
     };
 
     addBooking(bookingData);
+
     alert("Booking successful!");
     navigate("/dashboard");
   };
@@ -127,6 +134,9 @@ function ListingDetails({ addBooking, isLoggedIn }) {
             <div className="listing-header">
               <div>
                 <h1 className="title">{data.title}</h1>
+                <div className={`status-badge ${data.status.toLowerCase()}`}>
+                  {data.status}
+                </div>
                 <p className="location">{data.location}</p>
               </div>
 

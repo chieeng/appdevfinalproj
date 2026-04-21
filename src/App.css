@@ -4260,3 +4260,23 @@ small {
     grid-template-columns: 1fr;
   }
 }
+.status-badge {
+  display: inline-block;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+  margin-top: 8px;
+}
+
+/* AVAILABLE */
+.status-badge.available {
+  background: #e6f7ee;
+  color: #1e7e34;
+}
+
+/* OCCUPIED */
+.status-badge.occupied {
+  background: #fdeaea;
+  color: #c0392b;
+}
